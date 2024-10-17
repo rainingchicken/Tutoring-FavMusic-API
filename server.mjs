@@ -45,6 +45,10 @@ app.post("/", async (req, res) => {
   }
 });
 
+//
+// app.patch()
+// app.delete()
+
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
 // want to create a api for music
