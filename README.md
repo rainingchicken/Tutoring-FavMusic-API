@@ -14,11 +14,11 @@ Backend
 
 ### endpoints
 
-- /
+- /music
   - get all favorite songs posted by client
   - post a favorite song
 
-POST request
+##### POST request
 
 ```js
 {
@@ -27,7 +27,7 @@ POST request
 }
 ```
 
-GET request
+##### GET request
 
 ```js
 [
@@ -49,3 +49,32 @@ GET request
   },
 ];
 ```
+
+- /music/:\_id
+
+##### PATCH
+
+/music/67106a0aa2a75f6eb8f19dac
+
+```js
+{
+  "artist": "Doja Cat",
+}
+```
+
+(results)
+
+```js
+{
+    _id: "67106a0aa2a75f6eb8f19dac",
+    artist: "Doja Cat",
+    songTitle: "Kiss me more",
+    createdAt: "2024-10-17T01:36:10.219Z",
+    updatedAt: "2024-10-23T01:36:10.219Z",
+    __v: 0,
+}
+```
+
+##### DELETE
+
+/music/67106a0aa2a75f6eb8f19dac

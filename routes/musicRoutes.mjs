@@ -8,9 +8,9 @@ import FavSong from "../models/FavSong.mjs";
 // get all music inputed by users
 router.get("/", async (req, res) => {
   try {
-    // declaration varaibleName = await Collection.method({queries})s
-    const theweekndMusic = await FavSong.find({}).sort({ artist: -1 });
-    res.status(200).json(theweekndMusic);
+    // declaration varaibleName = await Collection.method({queries})
+    const allMusic = await FavSong.find({}).sort({ artist: -1 }); //leaving bracket empty means find all
+    res.status(200).json(allMusic);
   } catch (error) {
     console.log("Something went wrong in GET route" + error);
     res.status(404).json({ error });
@@ -34,20 +34,30 @@ router.post("/", async (req, res) => {
 });
 
 //PATCH/PUT
-router.patch("/:_id", async (req, res) => {
+router.patch("/:songID", async (req, res) => {
   //   const { artist, songTitle } = req.body;
-  const { artist } = req.body;
+  const { artist } = req.body; //brackets are for destructuring the req.body
   const { songTitle } = req.body;
-  const _id = req.params._id;
+  const id = req.params.songID;
   try {
-    const updatedSong = await FavSong.findByIdAndUpdate(_id, {
-      artist,
-      songTitle,
-    });
+    //-- METHOD 1 findByIdAndUpdate --//
+    //find and update the data
+    await FavSong.findByIdAndUpdate(
+      { _id: id },
+      {
+        artist,
+        songTitle,
+      }
+    );
+
+    //-- METHOD 2 findOneAndUpdate --//
     // const updatedSong = await FavSong.findOneAndUpdate(
-    //   { _id }, //find where _id: _id
+    //   { _id: id },
     //   { artist, songTitle }
     // );
+
+    //find the updatedData and send back json object
+    const updatedSong = await FavSong.findById({ _id: id });
     res.status(200).json(updatedSong);
   } catch (error) {
     console.log("Something went wrong in POST route" + error);
@@ -59,8 +69,8 @@ router.patch("/:_id", async (req, res) => {
 router.delete("/:_id", async (req, res) => {
   const _id = req.params;
   try {
-    // const deletedSong = await FavSong.findByIdAndDelete(_id);
-    const deletedSong = await FavSong.findOneAndDelete({ _id: _id });
+    // const deletedSong = await FavSong.findByIdAndDelete(_id); //NO curly bracket
+    const deletedSong = await FavSong.findOneAndDelete({ _id }); // shorthand for _id:_id (if and only if key and value is the same)
     res.status(200).json(deletedSong);
   } catch (error) {
     console.log("Something went wrong in POST route" + error);
