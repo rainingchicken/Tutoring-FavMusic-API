@@ -10,6 +10,14 @@ const favSongSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+favSongSchema.pre("find", function () {
+  this._startTime = Date.now();
+});
 
+favSongSchema.post("find", function () {
+  if (this._startTime != null) {
+    console.log("Runtime in MS: ", Date.now() - this._startTime);
+  }
+});
 const FavSong = mongoose.model("FavSong", favSongSchema);
 export default FavSong;
