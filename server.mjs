@@ -2,7 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
-
+import cors from "cors";
 // run function to connect to MONGODB
 import connectToMongo from "./database/connectToMongo.mjs";
 connectToMongo();
@@ -16,10 +16,10 @@ const app = express();
 
 // to parse body json / understand what the client wants/sending
 app.use(express.json());
-
+app.use(cors());
 //ROUTES
 //musicRoute
-app.use("/music", musicRoutes);
+app.use("/api/music", musicRoutes);
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
